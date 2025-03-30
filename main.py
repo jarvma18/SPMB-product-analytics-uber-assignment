@@ -5,7 +5,7 @@ from scipy.stats import ttest_ind
 def run_t_test(first_sample: pd.Series, first_sample_title: str, second_sample: pd.Series, second_sample_title: str):
   t_stat, p_value = ttest_ind(first_sample, second_sample, equal_var=False)
   print(f"Mean {first_sample_title}: {first_sample.mean()}, Mean {second_sample_title}: {second_sample.mean()}")
-  print(f"t = {t_stat:.3f}, p = {p_value:.3f}")
+  print(f"t = {t_stat:.3f}, p = {p_value:.3e}")
   print("Statistically significant at 5%" if p_value < 0.05 else "Not statistically significant")
 
 df = read_csv_file("data/uber_dataset.csv")
@@ -58,6 +58,7 @@ print('Difference: ', difference_commute_vs_noncommute_ridesharing_revenue, '$\n
 
 print('8. Is the difference statistically significant at the 5% confidence level?')
 run_t_test(commute_ridesharing_revenue, 'Commute Revenue', non_commute_ridesharing_revenue, 'Non-commute Revenue')
+print('\n')
 
 print('9. Assume again that riders pay $12.5 on average for a POOL ride, and $10 for an Express ride.')
 print('What is the difference in profits per trip between commuting and non-commuting hours?')
@@ -66,9 +67,10 @@ commute_total_driver_payout = control_df[control_df['commute'] == True]['total_d
 non_commute_total_driver_payout = control_df[control_df['commute'] == False]['total_driver_payout'].str.replace(",", ".").astype(float)
 commute_ridesharing_profit_per_trip = (commute_ridesharing_revenue - commute_total_driver_payout) / commute_ridesharing
 non_commute_ridesharing_profit_per_trip = (non_commute_ridesharing_revenue - non_commute_total_driver_payout) / non_commute_ridesharing
-difference_commute_vs_noncommute_ridesharing_profit_per_trip = abs(commute_ridesharing_profit_per_trip.sum() - non_commute_ridesharing_profit_per_trip.sum())
-print('Commute profit per trip: ', commute_ridesharing_profit_per_trip.sum(), '$ ', ' Non-commute profit per trip: ', non_commute_ridesharing_profit_per_trip.sum(), '$')
+difference_commute_vs_noncommute_ridesharing_profit_per_trip = abs(commute_ridesharing_profit_per_trip.mean() - non_commute_ridesharing_profit_per_trip.mean())
+print('Average commute profit per trip: ', commute_ridesharing_profit_per_trip.mean(), '$ ', ' Average non-commute profit per trip: ', non_commute_ridesharing_profit_per_trip.mean(), '$')
 print('Difference: ', difference_commute_vs_noncommute_ridesharing_profit_per_trip, '$\n')
 
 print('10. Is the difference statistically significant at the 5% confidence level?')
 run_t_test(commute_ridesharing_profit_per_trip, 'Commute Profit per Trip', non_commute_ridesharing_profit_per_trip, 'Non-commute Profit per Trip')
+print('\n')
