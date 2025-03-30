@@ -3,7 +3,7 @@ from typing import Union, List
 
 def read_csv_file(
   file_path: str,
-  delimiter: str = ',',
+  delimiter: str = ';',
   encoding: str = 'utf-8',
   parse_dates: Union[bool, List[str]] = False
 ) -> pd.DataFrame:
@@ -12,7 +12,7 @@ def read_csv_file(
 
   Parameters:
     file_path (str): Path to the CSV file.
-    delimiter (str): Delimiter used in the CSV (default is comma).
+    delimiter (str): Delimiter used in the CSV (default is semi-comma).
     encoding (str): File encoding (default is 'utf-8').
     parse_dates (bool or list of str): Automatically parse dates (default is False).
 
@@ -26,7 +26,7 @@ def read_csv_file(
       encoding=encoding,
       parse_dates=parse_dates
     )
-    print(f"CSV loaded successfully. Shape: {df.shape}")
+    print(f"CSV loaded successfully. Shape: {df.shape}\n")
     return df
   except FileNotFoundError:
     print(f"Error: File not found at {file_path}")
