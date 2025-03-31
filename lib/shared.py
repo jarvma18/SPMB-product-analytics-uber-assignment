@@ -7,7 +7,8 @@ def run_t_test(first_sample: pd.Series, first_sample_title: str, second_sample: 
   print(f"t = {t_stat:.3f}, p = {p_value:.3e}")
   print("Statistically significant at 5%\n" if p_value < 0.05 else "Not statistically significant\n")
 
-def print_difference(difference: float):
+def print_difference(firstValue: float, otherValue: float):
+  difference: float = abs(firstValue - otherValue)
   print('Difference:', difference, '\n')
 
 def print_higher_number_choice(firstChoice: str, firstChoiceSum: float, otherChoice: str, otherChoiceSum: float):
@@ -16,3 +17,6 @@ def print_higher_number_choice(firstChoice: str, firstChoiceSum: float, otherCho
   firstChoiceHasHigherNumber: bool = firstChoiceSum > otherChoiceSum;
   print(firstChoice, ':', firstChoiceSum, 'vs', otherChoice, ':', otherChoiceSum)
   print(firstChoicePrint if firstChoiceHasHigherNumber else otherChoicePrint)
+
+def print_labeled_amount(title: str, value: float):
+  print(title, ':', value, '$')
