@@ -7,12 +7,16 @@ EXPRESS_PRICE: float = 10.0
 
 df: pd.DataFrame = read_csv_file("data/uber_dataset.csv")
 control_df: pd.DataFrame = df[df['treat'] == False]
-commute_express: pd.Series = control_df[control_df['commute'] == True]['trips_express']
-commute_pool: pd.Series = control_df[control_df['commute'] == True]['trips_pool']
-commute_ridesharing: pd.Series = commute_express + commute_pool
-non_commute_express: pd.Series = control_df[control_df['commute'] == False]['trips_express']
-non_commute_pool: pd.Series = control_df[control_df['commute'] == False]['trips_pool']
-non_commute_ridesharing: pd.Series = non_commute_express + non_commute_pool
+treat_df: pd.DataFrame = df[df['treat'] == True]
+control_commute_express: pd.Series = control_df[control_df['commute'] == True]['trips_express']
+control_commute_pool: pd.Series = control_df[control_df['commute'] == True]['trips_pool']
+control_commute_ridesharing: pd.Series = control_commute_express + control_commute_pool
+treat_commute_express: pd.Series = treat_df[treat_df['commute'] == True]['trips_express']
+treat_commute_pool: pd.Series = treat_df[treat_df['commute'] == True]['trips_pool']
+treat_commute_ridesharing: pd.Series = treat_commute_express + treat_commute_pool
+control_non_commute_express: pd.Series = control_df[control_df['commute'] == False]['trips_express']
+control_non_commute_pool: pd.Series = control_df[control_df['commute'] == False]['trips_pool']
+control_non_commute_ridesharing: pd.Series = control_non_commute_express + control_non_commute_pool
 
 print('1. Do commuting hours experience a higher number of ridesharing (Express + POOL) trips compared to non-commuting hours?')
 print_higher_number_choice('Commute', commute_ridesharing.sum(), 'Non-commute', non_commute_ridesharing.sum());
