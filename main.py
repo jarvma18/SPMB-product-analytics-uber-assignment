@@ -1,7 +1,6 @@
 import pandas as pd
-from scipy.stats import ttest_ind
 from lib.csv_import import read_csv_file
-from lib.shared import run_t_test, print_difference, print_higher_number_choice
+from lib.shared import run_t_test, print_difference, print_higher_number_choice, print_labeled_amount
 
 POOL_PRICE: float = 12.5
 EXPRESS_PRICE: float = 10.0
