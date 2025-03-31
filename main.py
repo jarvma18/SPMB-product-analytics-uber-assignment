@@ -1,22 +1,16 @@
-from lib.csv_import import read_csv_file
 import pandas as pd
 from scipy.stats import ttest_ind
+from lib.csv_import import read_csv_file
+from lib.shared import run_t_test
 
-def run_t_test(first_sample: pd.Series, first_sample_title: str, second_sample: pd.Series, second_sample_title: str):
-  t_stat, p_value = ttest_ind(first_sample, second_sample, equal_var=False)
-  print(f"Mean {first_sample_title}: {first_sample.mean()}, Mean {second_sample_title}: {second_sample.mean()}")
-  print(f"t = {t_stat:.3f}, p = {p_value:.3e}")
-  print("Statistically significant at 5%" if p_value < 0.05 else "Not statistically significant")
-
-df = read_csv_file("data/uber_dataset.csv")
-
-control_df = df[df['treat'] == False]
-commute_express = control_df[control_df['commute'] == True]['trips_express']
-commute_pool = control_df[control_df['commute'] == True]['trips_pool']
-commute_ridesharing = commute_express + commute_pool
-non_commute_express = control_df[control_df['commute'] == False]['trips_express']
-non_commute_pool = control_df[control_df['commute'] == False]['trips_pool']
-non_commute_ridesharing = non_commute_express + non_commute_pool
+df: pd.DataFrame = read_csv_file("data/uber_dataset.csv")
+control_df: pd.DataFrame = df[df['treat'] == False]
+commute_express: pd.Series = control_df[control_df['commute'] == True]['trips_express']
+commute_pool: pd.Series = control_df[control_df['commute'] == True]['trips_pool']
+commute_ridesharing: pd.Series = commute_express + commute_pool
+non_commute_express: pd.Series = control_df[control_df['commute'] == False]['trips_express']
+non_commute_pool: pd.Series = control_df[control_df['commute'] == False]['trips_pool']
+non_commute_ridesharing: pd.Series = non_commute_express + non_commute_pool
 
 print('1. Do commuting hours experience a higher number of ridesharing (Express + POOL) trips compared to non-commuting hours?')
 commute_has_higher_number_ridesharing: bool = commute_ridesharing.sum() > non_commute_ridesharing.sum();
