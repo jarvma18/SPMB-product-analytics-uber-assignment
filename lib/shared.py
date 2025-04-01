@@ -7,19 +7,19 @@ def run_t_test(first_sample: pd.Series, first_sample_title: str, second_sample: 
   print(f"t = {t_stat:.3f}, p = {p_value:.6f}")
   print("Statistically significant at 5%\n" if p_value < 0.05 else "Not statistically significant\n")
 
-def print_difference(firstValue: float, otherValue: float):
-  difference: float = abs(firstValue - otherValue)
+def print_difference(first_value: float, other_value: float):
+  difference: float = abs(first_value - other_value)
   print('Difference:', difference, '\n')
 
-def print_higher_number_choice(firstChoice: str, firstChoiceSum: float, otherChoice: str, otherChoiceSum: float):
-  firstChoicePrint: str = firstChoice + ' has higher number\n'
-  otherChoicePrint: str = otherChoice + ' has higher number\n'
-  firstChoiceHasHigherNumber: bool = firstChoiceSum > otherChoiceSum;
-  print(firstChoice, ':', firstChoiceSum, 'vs', otherChoice, ':', otherChoiceSum)
-  print(firstChoicePrint if firstChoiceHasHigherNumber else otherChoicePrint)
+def print_higher_number_choice(first_choice: str, first_choice_sum: float, other_choice: str, other_choice_sum: float):
+  first_choice_print: str = first_choice + ' has higher number\n'
+  other_choice_print: str = other_choice + ' has higher number\n'
+  first_choice_has_higher_number: bool = first_choice_sum > other_choice_sum;
+  print(first_choice, ':', first_choice_sum, 'vs', other_choice, ':', other_choice_sum)
+  print(first_choice_print if first_choice_has_higher_number else other_choice_print)
 
-def print_labeled_amount(title: str, value: float, addDollar):
-  if addDollar:
+def print_labeled_amount(title: str, value: float, add_dollar):
+  if add_dollar:
     print(title, ':', value, '$')
   else:
     print(title, ':', value)
