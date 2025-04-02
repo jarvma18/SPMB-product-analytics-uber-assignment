@@ -37,6 +37,17 @@ treat_non_commute_total_matches: pd.Series = treat_df[treat_df['commute'] == Fal
 control_non_commute_total_double_matches: pd.Series = control_df[control_df['commute'] == False]['total_double_matches']
 treat_non_commute_total_double_matches: pd.Series = treat_df[treat_df['commute'] == False]['total_double_matches']
 
+control_commute_ridesharing_revenue: pd.Series = (control_commute_pool * POOL_PRICE) + (control_commute_express * EXPRESS_PRICE)
+control_non_commute_ridesharing_revenue: pd.Series = (control_non_commute_pool * POOL_PRICE) + (control_non_commute_express * EXPRESS_PRICE)
+# Profit per trip = (Revenue - Total Driver Payout) / Total number of trips
+control_commute_ridesharing_profit_per_trip: pd.Series = (control_commute_ridesharing_revenue - control_commute_total_driver_payout) / control_commute_ridesharing
+control_non_commute_ridesharing_profit_per_trip: pd.Series = (control_non_commute_ridesharing_revenue - control_non_commute_total_driver_payout) / control_non_commute_ridesharing
+
+treat_commute_total_driver_payout_per_trip: pd.Series = treat_commute_total_driver_payout.sum() / treat_commute_ridesharing.sum()
+control_commute_total_driver_payout_per_trip: pd.Series = control_commute_total_driver_payout.sum() / control_commute_ridesharing.sum()
+treat_non_commute_total_driver_payout_per_trip: pd.Series = treat_non_commute_total_driver_payout.sum() / treat_non_commute_ridesharing.sum()
+control_non_commute_total_driver_payout_per_trip: pd.Series = control_non_commute_total_driver_payout.sum() / control_non_commute_ridesharing.sum()
+
 # Problem 1 questions
 print('1. Do commuting hours experience a higher number of ridesharing (Express + POOL) trips compared to non-commuting hours?')
 print_higher_number_choice('Commute', control_commute_ridesharing.sum(), 'Non-commute', control_non_commute_ridesharing.sum());
@@ -70,34 +81,29 @@ run_t_test(control_commute_express, 'Commute Express', control_non_commute_expre
 
 print('7. Assume that riders pay $12.5 on average for a POOL ride, and $10 for an Express ride.')
 print('What is the difference in revenues between commuting and non-commuting hours?')
-commute_ridesharing_revenue = (control_commute_pool * POOL_PRICE) + (control_commute_express * EXPRESS_PRICE)
-non_commute_ridesharing_revenue = (control_non_commute_pool * POOL_PRICE) + (control_non_commute_express * EXPRESS_PRICE)
 print_difference(
-  commute_ridesharing_revenue.sum(),
-  non_commute_ridesharing_revenue.sum(),
+  control_commute_ridesharing_revenue.sum(),
+  control_non_commute_ridesharing_revenue.sum(),
   'Commute Revenue',
   'Non-commute Revenue',
   True
 )
 
 print('8. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(commute_ridesharing_revenue, 'Commute Revenue', non_commute_ridesharing_revenue, 'Non-commute Revenue')
+run_t_test(control_commute_ridesharing_revenue, 'Commute Revenue', control_non_commute_ridesharing_revenue, 'Non-commute Revenue')
 
 print('9. Assume again that riders pay $12.5 on average for a POOL ride, and $10 for an Express ride.')
 print('What is the difference in profits per trip between commuting and non-commuting hours?')
-# Profit per trip = (Revenue - Total Driver Payout) / Total number of trips
-commute_ridesharing_profit_per_trip = (commute_ridesharing_revenue - control_commute_total_driver_payout) / control_commute_ridesharing
-non_commute_ridesharing_profit_per_trip = (non_commute_ridesharing_revenue - control_non_commute_total_driver_payout) / control_non_commute_ridesharing
 print_difference(
-  commute_ridesharing_profit_per_trip.mean(),
-  non_commute_ridesharing_profit_per_trip.mean(),
+  control_commute_ridesharing_profit_per_trip.mean(),
+  control_non_commute_ridesharing_profit_per_trip.mean(),
   'Aver. Commute Profit per Trip',
   'Aver. Non-commute Profit per Trip',
   True
 )
 
 print('10. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(commute_ridesharing_profit_per_trip, 'Commute Profit per Trip', non_commute_ridesharing_profit_per_trip, 'Non-commute Profit per Trip')
+run_t_test(control_commute_ridesharing_profit_per_trip, 'Commute Profit per Trip', control_non_commute_ridesharing_profit_per_trip, 'Non-commute Profit per Trip')
 
 # Problem 2 questions
 
@@ -127,11 +133,11 @@ run_t_test(treat_commute_rider_cancellations, 'Treatment Commute Rider Cancellat
 
 print('5. What is the difference in driver payout per trip between the treatment and control groups during commuting hours?')
 print_difference(
-  treat_commute_total_driver_payout.sum(),
-  control_commute_total_driver_payout.sum(),
+  treat_commute_total_driver_payout_per_trip,
+  control_commute_total_driver_payout_per_trip,
   'Treatment Commute Total Driver Payout',
   'Control Commute Total Driver Payout',
-  False
+  True
 )
 
 print('6. Is the difference statistically significant at the 5% confidence level?')
@@ -190,11 +196,11 @@ run_t_test(treat_non_commute_rider_cancellations, 'Treatment Non-commute Rider C
 
 print('16. What is the difference in driver payout per trip between the treatment and control groups during non-commuting hours?')
 print_difference(
-  treat_non_commute_total_driver_payout.sum(),
-  control_non_commute_total_driver_payout.sum(),
+  treat_non_commute_total_driver_payout_per_trip,
+  control_non_commute_total_driver_payout_per_trip,
   'Treatment Non-commute Total Driver Payout',
   'Control Non-commute Total Driver Payout',
-  False
+  True
 )
 
 print('17. Is the difference statistically significant at the 5% confidence level?')

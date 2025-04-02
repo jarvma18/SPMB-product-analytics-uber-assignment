@@ -4,8 +4,8 @@ from lib.charts import bar_comparison, boxplot_series
 
 def run_t_test(first_sample: pd.Series, first_sample_title: str, second_sample: pd.Series, second_sample_title: str):
   t_stat, p_value = ttest_ind(first_sample, second_sample, equal_var=False)
-  first_mean = first_sample.mean()
-  second_mean = second_sample.mean()
+  first_mean = round(first_sample.mean(), 2)
+  second_mean = round(second_sample.mean(), 2)
 
   print(f"Mean {first_sample_title}: {first_mean}, Mean {second_sample_title}: {second_mean}")
   print(f"t = {t_stat:.3f}, p = {p_value:.6f}")
@@ -26,10 +26,11 @@ def run_t_test(first_sample: pd.Series, first_sample_title: str, second_sample: 
   )
 
 def print_difference(first_value: float, other_value: float, first_title: str, other_title: str, print_dollar: bool):
-  difference: float = abs(first_value - other_value)
+  difference: float = round(abs(first_value - other_value), 2)
   print_labeled_amount(first_title, first_value, print_dollar)
   print_labeled_amount(other_title, other_value, print_dollar)
-  print('Difference:', difference, '\n')
+  print_labeled_amount('Difference', difference, print_dollar)
+  print('\n')
   bar_comparison(first_title, first_value, other_title, other_value, 'Value Comparison', 'Value')
 
 def print_higher_number_choice(first_choice: str, first_choice_sum: float, other_choice: str, other_choice_sum: float):
@@ -48,6 +49,6 @@ def print_higher_number_choice(first_choice: str, first_choice_sum: float, other
 
 def print_labeled_amount(title: str, value: float, add_dollar):
   if add_dollar:
-    print(title, ':', value, '$')
+    print(title, ':', round(value, 2), '$')
   else:
-    print(title, ':', value)
+    print(title, ':', round(value, 2))

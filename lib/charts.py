@@ -8,7 +8,7 @@ from datetime import datetime
 sns.set(style="whitegrid")
 
 def bar_comparison(label1, value1, label2, value2, title, ylabel, save_as=None):
-  plt.figure(figsize=(6, 4))
+  plt.figure(figsize=(8, 6))
   plt.bar([label1, label2], [value1, value2], color=['#1f77b4', '#ff7f0e'])
   plt.title(title)
   plt.ylabel(ylabel)
@@ -24,7 +24,7 @@ def boxplot_series(series1, label1, series2, label2, title, ylabel, save_as=None
     'Group': [label1] * len(series1) + [label2] * len(series2)
   })
 
-  plt.figure(figsize=(6, 4))
+  plt.figure(figsize=(8, 6))
   sns.boxplot(x='Group', y=ylabel, data=data)
   plt.title(title)
   plt.tight_layout()
