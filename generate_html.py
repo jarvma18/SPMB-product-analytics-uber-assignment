@@ -46,7 +46,7 @@ def generate_html():
   with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
     f.write("\n".join(html))
 
-  print(f"✅ Base64 HTML gallery generated: {OUTPUT_FILE}")
+  print(f"Base64 HTML gallery generated: {OUTPUT_FILE}")
 
 if __name__ == "__main__":
   generate_html()
