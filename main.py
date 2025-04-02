@@ -20,18 +20,18 @@ control_non_commute_ridesharing: pd.Series = control_non_commute_express + contr
 treat_non_commute_express: pd.Series = treat_df[treat_df['commute'] == False]['trips_express']
 treat_non_commute_pool: pd.Series = treat_df[treat_df['commute'] == False]['trips_pool']
 treat_non_commute_ridesharing: pd.Series = treat_non_commute_express + treat_non_commute_pool
-control_commute_rider_canc: pd.Series = control_df[control_df['commute'] == True]['rider_cancellations']
-treat_commute_rider_canc: pd.Series = treat_df[treat_df['commute'] == True]['rider_cancellations']
-control_commute_total_driver_payout = control_df[control_df['commute'] == True]['total_driver_payout'].str.replace(",", ".").astype(float)
-treat_commute_total_driver_payout = treat_df[treat_df['commute'] == True]['total_driver_payout'].str.replace(",", ".").astype(float)
+control_commute_rider_cancellations: pd.Series = control_df[control_df['commute'] == True]['rider_cancellations']
+treat_commute_rider_cancellations: pd.Series = treat_df[treat_df['commute'] == True]['rider_cancellations']
+control_commute_total_driver_payout = control_df[control_df['commute'] == True]['total_driver_payout']
+treat_commute_total_driver_payout = treat_df[treat_df['commute'] == True]['total_driver_payout']
 control_commute_total_matches: pd.Series = control_df[control_df['commute'] == True]['total_matches']
 treat_commute_total_matches: pd.Series = treat_df[treat_df['commute'] == True]['total_matches']
 control_commute_total_double_matches: pd.Series = control_df[control_df['commute'] == True]['total_double_matches']
 treat_commute_total_double_matches: pd.Series = treat_df[treat_df['commute'] == True]['total_double_matches']
-control_non_commute_rider_canc: pd.Series = control_df[control_df['commute'] == False]['rider_cancellations']
-treat_non_commute_rider_canc: pd.Series = treat_df[treat_df['commute'] == False]['rider_cancellations']
-control_non_commute_total_driver_payout = control_df[control_df['commute'] == False]['total_driver_payout'].str.replace(",", ".").astype(float)
-treat_non_commute_total_driver_payout = treat_df[treat_df['commute'] == False]['total_driver_payout'].str.replace(",", ".").astype(float)
+control_non_commute_rider_cancellations: pd.Series = control_df[control_df['commute'] == False]['rider_cancellations']
+treat_non_commute_rider_cancellations: pd.Series = treat_df[treat_df['commute'] == False]['rider_cancellations']
+control_non_commute_total_driver_payout = control_df[control_df['commute'] == False]['total_driver_payout']
+treat_non_commute_total_driver_payout = treat_df[treat_df['commute'] == False]['total_driver_payout']
 control_non_commute_total_matches: pd.Series = control_df[control_df['commute'] == False]['total_matches']
 treat_non_commute_total_matches: pd.Series = treat_df[treat_df['commute'] == False]['total_matches']
 control_non_commute_total_double_matches: pd.Series = control_df[control_df['commute'] == False]['total_double_matches']
@@ -90,12 +90,12 @@ print('2. Is the difference statistically significant at the 5% confidence level
 run_t_test(treat_commute_ridesharing, 'Treatment Commute Ridesharing', control_commute_ridesharing, 'Control Commute Ridesharing')
 
 print('3. What is the difference in the number of rider cancellations between the treatment and control groups during commuting hours?')
-print_labeled_amount('Treatment Commute Rider Canc', treat_commute_rider_canc.sum(), False)
-print_labeled_amount('Control Commute Rider Canc', control_commute_rider_canc.sum(), False)
-print_difference(treat_commute_rider_canc.sum(), control_commute_rider_canc.sum())
+print_labeled_amount('Treatment Commute Rider Cancellations', treat_commute_rider_cancellations.sum(), False)
+print_labeled_amount('Control Commute Rider Cancellations', control_commute_rider_cancellations.sum(), False)
+print_difference(treat_commute_rider_cancellations.sum(), control_commute_rider_cancellations.sum())
 
 print('4. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(treat_commute_rider_canc, 'Treatment Commute Rider Cancellations', control_commute_rider_canc, 'Control Commute Rider Cancellations')
+run_t_test(treat_commute_rider_cancellations, 'Treatment Commute Rider Cancellations', control_commute_rider_cancellations, 'Control Commute Rider Cancellations')
 
 print('5. What is the difference in driver payout per trip between the treatment and control groups during commuting hours?')
 print_labeled_amount('Treatment Commute Total Driver Payout', treat_commute_total_driver_payout.sum(), False)
@@ -103,15 +103,15 @@ print_labeled_amount('Control Commute Total Driver Payout', control_commute_tota
 print_difference(treat_commute_total_driver_payout.sum(), control_commute_total_driver_payout.sum())
 
 print('6. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(treat_commute_total_driver_payout, 'Treatment Commute Rider Cancellations', control_commute_total_driver_payout, 'Control Commute Rider Cancellations')
+run_t_test(treat_commute_total_driver_payout, 'Treatment Commute Total Driver Payout', control_commute_total_driver_payout, 'Control Commute Total Driver Payout')
 
 print('7. What is the difference in overall match rate between the treatment and control groups during commuting hours?')
 print_labeled_amount('Treatment Commute Total Matches', treat_commute_total_matches.sum(), False)
-print_labeled_amount('Control Commute Ridesharing', control_commute_total_matches.sum(), False)
+print_labeled_amount('Control Commute Total Matches', control_commute_total_matches.sum(), False)
 print_difference(treat_commute_total_matches.sum(), control_commute_total_matches.sum())
 
 print('8. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(treat_commute_total_matches, 'Treatment Commute Rider Cancellations', control_commute_total_matches, 'Control Commute Rider Cancellations')
+run_t_test(treat_commute_total_matches, 'Treatment Commute Total Matches', control_commute_total_matches, 'Control Commute Total Matches')
 
 print('9. What is the difference in double match rate between the treatment and control groups during commuting hours?')
 print_labeled_amount('Treatment Commute Double Matches', treat_commute_total_double_matches.sum(), False)
@@ -119,50 +119,50 @@ print_labeled_amount('Control Commute Double Matches', control_commute_total_dou
 print_difference(treat_commute_total_double_matches.sum(), control_commute_total_double_matches.sum())
 
 print('10. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(treat_commute_rider_canc, 'Treatment Commute Rider Cancellations', control_commute_rider_canc, 'Control Commute Rider Cancellations')
+run_t_test(treat_commute_total_double_matches, 'Treatment Commute Double Matches', control_commute_total_double_matches, 'Control Commute Double Matches')
 
 print('11. Does the analysis support extending waiting times to 5 minutes for commuting hours?')
 print('No, the data provides clear evidence against extending waiting times.\n')
 
 print('12. What is the difference in the number of ridesharing trips between the treatment and control groups during non-commuting hours?')
-print_labeled_amount('Treatment Commute Ridesharing', treat_non_commute_ridesharing.sum(), False)
-print_labeled_amount('Control Commute Ridesharing', control_non_commute_ridesharing.sum(), False)
+print_labeled_amount('Treatment Non-commute Ridesharing', treat_non_commute_ridesharing.sum(), False)
+print_labeled_amount('Control Non-commute Ridesharing', control_non_commute_ridesharing.sum(), False)
 print_difference(treat_non_commute_ridesharing.sum(), control_non_commute_ridesharing.sum())
 
 print('13. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(treat_non_commute_ridesharing, 'Treatment Commute Ridesharing', control_non_commute_ridesharing, 'Control Commute Ridesharing')
+run_t_test(treat_non_commute_ridesharing, 'Treatment Non-commute Ridesharing', control_non_commute_ridesharing, 'Control Non-commute Ridesharing')
 
 print('14. What is the difference in the number of rider cancellations between the treatment and control groups during non-commuting hours?')
-print_labeled_amount('Treatment Commute Rider Canc', treat_non_commute_rider_canc.sum(), False)
-print_labeled_amount('Control Commute Rider Canc', control_non_commute_rider_canc.sum(), False)
-print_difference(treat_non_commute_rider_canc.sum(), control_non_commute_rider_canc.sum())
+print_labeled_amount('Treatment Non-commute Rider Cancellations', treat_non_commute_rider_cancellations.sum(), False)
+print_labeled_amount('Control Non-commute Rider Cancellations', control_non_commute_rider_cancellations.sum(), False)
+print_difference(treat_non_commute_rider_cancellations.sum(), control_non_commute_rider_cancellations.sum())
 
 print('15. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(treat_non_commute_rider_canc, 'Treatment Commute Rider Cancellations', control_non_commute_rider_canc, 'Control Commute Rider Cancellations')
+run_t_test(treat_non_commute_rider_cancellations, 'Treatment Non-commute Rider Cancellations', control_non_commute_rider_cancellations, 'Control Non-commute Rider Cancellations')
 
 print('16. What is the difference in driver payout per trip between the treatment and control groups during non-commuting hours?')
-print_labeled_amount('Treatment Commute Total Driver Payout', treat_non_commute_total_driver_payout.sum(), False)
-print_labeled_amount('Control Commute Total Driver Payout', control_non_commute_total_driver_payout.sum(), False)
+print_labeled_amount('Treatment Non-commute Total Driver Payout', treat_non_commute_total_driver_payout.sum(), False)
+print_labeled_amount('Control Non-commute Total Driver Payout', control_non_commute_total_driver_payout.sum(), False)
 print_difference(treat_non_commute_total_driver_payout.sum(), control_non_commute_total_driver_payout.sum())
 
 print('17. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(treat_non_commute_total_driver_payout, 'Treatment Commute Rider Cancellations', control_non_commute_total_driver_payout, 'Control Commute Rider Cancellations')
+run_t_test(treat_non_commute_total_driver_payout, 'Treatment Non-commute Total Driver Payout', control_non_commute_total_driver_payout, 'Control Non-commute Total Driver Payout')
 
 print('18. What is the difference in overall match rate between the treatment and control groups during non-commuting hours?')
-print_labeled_amount('Treatment Commute Total Matches', treat_non_commute_total_matches.sum(), False)
-print_labeled_amount('Control Commute Ridesharing', control_non_commute_total_matches.sum(), False)
+print_labeled_amount('Treatment Non-commute Total Matches', treat_non_commute_total_matches.sum(), False)
+print_labeled_amount('Control Non-commute Total Matches', control_non_commute_total_matches.sum(), False)
 print_difference(treat_non_commute_total_matches.sum(), control_non_commute_total_matches.sum())
 
 print('19. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(treat_non_commute_total_matches, 'Treatment Commute Rider Cancellations', control_non_commute_total_matches, 'Control Commute Rider Cancellations')
+run_t_test(treat_non_commute_total_matches, 'Treatment Non-commute Total Matches', control_non_commute_total_matches, 'Control Non-commute Total Matches')
 
 print('20. What is the difference in double match rate between the treatment and control groups during non-commuting hours?')
-print_labeled_amount('Treatment Commute Double Matches', treat_non_commute_total_double_matches.sum(), False)
-print_labeled_amount('Control Commute Double Matches', control_non_commute_total_double_matches.sum(), False)
+print_labeled_amount('Treatment Non-commute Double Matches', treat_non_commute_total_double_matches.sum(), False)
+print_labeled_amount('Control Non-commute Double Matches', control_non_commute_total_double_matches.sum(), False)
 print_difference(treat_non_commute_total_double_matches.sum(), control_non_commute_total_double_matches.sum())
 
 print('21. Is the difference statistically significant at the 5% confidence level?')
-run_t_test(treat_non_commute_rider_canc, 'Treatment Commute Rider Cancellations', control_non_commute_rider_canc, 'Control Commute Rider Cancellations')
+run_t_test(treat_non_commute_total_double_matches, 'Treatment Non-commute Double Matches', control_non_commute_total_double_matches, 'Control Non-commute Double Matches')
 
 print('22. Does the analysis support extending waiting times to 5 minutes for non-commuting hours?')
 print('No, the data provides clear evidence against extending waiting times.\n')

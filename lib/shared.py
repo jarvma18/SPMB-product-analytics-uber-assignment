@@ -5,7 +5,7 @@ def run_t_test(first_sample: pd.Series, first_sample_title: str, second_sample: 
   t_stat, p_value = ttest_ind(first_sample, second_sample, equal_var=False)
   print(f"Mean {first_sample_title}: {first_sample.mean()}, Mean {second_sample_title}: {second_sample.mean()}")
   print(f"t = {t_stat:.3f}, p = {p_value:.6f}")
-  print("Statistically significant at 5%\n" if p_value < 0.05 else "Not statistically significant\n")
+  print("Statistically significant\n" if p_value < 0.05 else "Not statistically significant\n")
 
 def print_difference(first_value: float, other_value: float):
   difference: float = abs(first_value - other_value)

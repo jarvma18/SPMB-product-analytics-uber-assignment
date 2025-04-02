@@ -24,7 +24,8 @@ def read_csv_file(
       file_path,
       delimiter=delimiter,
       encoding=encoding,
-      parse_dates=parse_dates
+      parse_dates=parse_dates,
+      converters={"total_driver_payout": lambda x: float(x.replace(",", "."))}
     )
     print(f"CSV loaded successfully. Shape: {df.shape}\n")
     return df
@@ -36,3 +37,4 @@ def read_csv_file(
     print(f"Unexpected error: {e}")
 
   return pd.DataFrame()  # Return empty DataFrame on failure
+df = pd.read_csv("data/uber_dataset.csv", converters={"total_driver_payout": lambda x: float(x.replace(",", "."))})
