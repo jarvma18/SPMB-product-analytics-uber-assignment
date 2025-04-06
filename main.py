@@ -232,3 +232,42 @@ run_t_test(treat_non_commute_total_double_matches, 'Treatment Non-commute Double
 
 print('22. Does the analysis support extending waiting times to 5 minutes for non-commuting hours?')
 print('No, the data provides clear evidence against extending waiting times.\n')
+
+print('\n=== Summary: Effect of Extending Wait Times from 2 to 5 Minutes ===')
+
+# 1. Total Shared Rides Completed (POOL + EXPRESS)
+control_total_shared_rides = control_df['trips_pool'].sum() + control_df['trips_express'].sum()
+treat_total_shared_rides = treat_df['trips_pool'].sum() + treat_df['trips_express'].sum()
+print_difference(
+    treat_total_shared_rides,
+    control_total_shared_rides,
+    'Treatment Total Shared Rides',
+    'Control Total Shared Rides',
+    False
+)
+
+# 2. Proportion of Shared Rides That Were Matched
+control_total_matches = control_df['total_matches'].sum()
+treat_total_matches = treat_df['total_matches'].sum()
+control_match_rate = control_total_matches / control_total_shared_rides
+treat_match_rate = treat_total_matches / treat_total_shared_rides
+print_difference(
+    treat_match_rate,
+    control_match_rate,
+    'Treatment Match Rate',
+    'Control Match Rate',
+    False
+)
+
+# 3. Driver Payout Per Trip (Average)
+control_total_driver_payout = control_df['total_driver_payout'].sum()
+treat_total_driver_payout = treat_df['total_driver_payout'].sum()
+control_driver_payout_per_trip = control_total_driver_payout / control_total_shared_rides
+treat_driver_payout_per_trip = treat_total_driver_payout / treat_total_shared_rides
+print_difference(
+    treat_driver_payout_per_trip,
+    control_driver_payout_per_trip,
+    'Treatment Avg Driver Payout/Trip',
+    'Control Avg Driver Payout/Trip',
+    True
+)

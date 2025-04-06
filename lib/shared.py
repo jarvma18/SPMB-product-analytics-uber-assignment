@@ -26,7 +26,7 @@ def run_t_test(first_sample: pd.Series, first_sample_title: str, second_sample: 
   )
 
 def print_difference(first_value: float, other_value: float, first_title: str, other_title: str, print_dollar: bool):
-  difference: float = round(abs(first_value - other_value), 2)
+  difference: float = abs(first_value - other_value)
   print_labeled_amount(first_title, first_value, print_dollar)
   print_labeled_amount(other_title, other_value, print_dollar)
   print_labeled_amount('Difference', difference, print_dollar)
@@ -49,6 +49,6 @@ def print_higher_number_choice(first_choice: str, first_choice_sum: float, other
 
 def print_labeled_amount(title: str, value: float, add_dollar):
   if add_dollar:
-    print(title, ':', round(value, 2), '$')
+    print(title, ':', value, '$')
   else:
-    print(title, ':', round(value, 2))
+    print(title, ':', value)
