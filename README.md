@@ -22,3 +22,7 @@ This project is part of the Product Analytics course. It analyzes how increasing
 pip install pandas scipy
 python main.py
 ```
+
+## Todo
+
+- Unittests back to working
